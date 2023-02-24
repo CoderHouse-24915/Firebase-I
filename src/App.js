@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
-function App() {
+// FIREBASE
+import { db } from "./firebase/firebaseConfig";
+import { collection, query, getDocs, where } from "firebase/firestore";
+
+import CardAlbum from "./components/CardAlbum/CardAlbum";
+
+const App = () => {
+  const [albumsData, setAlbumsData] = useState([]);
+
+  useEffect(() => {
+    const getAlbums = async () => {
+      const q = query(
+        collection(db, "music")
+        // where("genre", "==", "synthpop")
+      );
+      const querySnapshot = await getDocs(q);
+      const docs = [];
+      querySnapshot.forEach((doc) => {
+        // console.log(doc.id, " => ", doc.data());
+        docs.push({ ...doc.data(), id: doc.id });
+      });
+      setAlbumsData(docs);
+    };
+    getAlbums();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1> Firebase </h1>
+      {albumsData.map((album) => {
+        return (
+          <div key={album.id}>
+            <CardAlbum dataAlbum={album} />
+          </div>
+        );
+      })}
     </div>
   );
-}
+};
 
 export default App;
