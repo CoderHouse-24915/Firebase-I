@@ -1,3 +1,7 @@
+#Nombre: Daniel Di Salvo
+
+# Proyecto: Este proyecto es parte de un proyecto realizado para el curso de Coder de la camada 111111
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
